@@ -22,7 +22,7 @@ def geoJson():
     #data = cur.execute('SELECT name, stars FROM yelp')
    
     yelp_list=[]
-    for data in c.execute('SELECT NAME, City, State, Latitude, Longitude, Stars, Review_Count, Bucket, Sentiment FROM yelp LIMIT 5'):
+    for data in c.execute('SELECT NAME, City, State, Latitude, Longitude, Stars, Review_Count, Bucket, Sentiment FROM yelp LIMIT 30 OFFSET 1'):
         yelp_Dict = {
             'Name':data[0],
             'City':data[1],
