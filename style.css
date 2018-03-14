@@ -52,9 +52,8 @@ ul{
     margin: 2% 0% 2% 0%;
   }
 
-#map-1, #map-2{
+#map-1{
     height: 500px;
-    width: 50%%;
     margin: 30px 1% 0 1%;
     border-radius: 3px;
     border-style: solid; 
