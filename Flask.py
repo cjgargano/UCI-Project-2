@@ -28,7 +28,7 @@ def geoJson():
    
     yelp_list=[]
     
-    for data in c.execute('SELECT NAME, City, State, Latitude, Longitude, Stars, Review_Count, Bucket, Sentiment FROM yelp LIMIT 500 OFFSET 1'):
+    for data in c.execute("SELECT NAME, City, State, Latitude, Longitude, Stars, Review_Count, Bucket, Sentiment FROM yelp WHERE  state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY')  LIMIT 500 OFFSET 1"):
         yelp_Dict = {
             'properties': {'Name':data[0],
             'address': {'City':data[1],
@@ -45,7 +45,11 @@ def geoJson():
             }
         yelp_list.append(yelp_Dict)
     
+<<<<<<< HEAD
     return jsonify.dumps(yelp_list)
+=======
+    return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
     
     
 @app.route("/cityjson")
@@ -55,14 +59,18 @@ def cityjson():
    
     yelp_list=[]
     
-    for data in c.execute('SELECT State , count(name) as location_count, avg (sentiment) as average_sentiment FROM yelp group by State LIMIT 100 OFFSET 5'):
+    for data in c.execute("SELECT State , count(name) as location_count, avg (sentiment) as average_sentiment FROM yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by State  LIMIT 100 OFFSET 5"):
         yelp_Dict = {
             'STATE':data[0],
             'location_Count':data[1],
             'Average_Sentiment':data[2]}
         yelp_list.append(yelp_Dict)
     
+<<<<<<< HEAD
     return jsonify.dumps(yelp_list)
+=======
+    return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
     
  #endpoint is for a showing which cities have the most number of reviews   
 @app.route("/mostReviewedJson")    
@@ -72,7 +80,7 @@ def mostReviewedJson():
    
     yelp_list=[]
     
-    for data in c.execute('select city, sum(review_count) as number_of_reviews , latitude, longitude from yelp group by city having count(name) > 3000 Order by number_of_reviews desc limit 9'):
+    for data in c.execute("select city, sum(review_count) as number_of_reviews , latitude, longitude from yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by city having count(name) > 3000 Order by number_of_reviews desc limit 9"):
         yelp_Dict = {
             'City':data[0],
             'number_of_reviews':data[1],
@@ -80,7 +88,11 @@ def mostReviewedJson():
             'longitude':data[3]}
         yelp_list.append(yelp_Dict)
     
+<<<<<<< HEAD
     return jsonify.dumps(yelp_list)
+=======
+    return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
  #this is the city that has the best rating with more than 2000 places reviewed    
 @app.route("/bestratedCityJson")    
 def bestratedcityjson():
@@ -89,7 +101,7 @@ def bestratedcityjson():
    
     yelp_list=[]
     #create a dictonary by looping through a sql query 
-    for data in c.execute('select city, round(avg(stars),2) as rating , latitude, longitude from yelp group by city having count(name) > 2000 order by rating desc'):
+    for data in c.execute("select city, round(avg(stars),2) as rating , latitude, longitude from yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by city having count(name) > 2000 order by rating desc"):
         yelp_Dict = {
             'City':data[0],
             'Average_rating':data[1],
@@ -97,7 +109,11 @@ def bestratedcityjson():
             'longitude':data[3]}
         yelp_list.append(yelp_Dict)
     #print out the json to the end point
+<<<<<<< HEAD
     return jsonify.dumps(yelp_list)
+=======
+    return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
 
 
 #enpoint to show the number each bucket appears
@@ -108,13 +124,17 @@ def bucketCountJson():
    
     yelp_list=[]
     #create a dictonary by looping through a sql query 
-    for data in c.execute('select bucket, count(bucket) as number_of_occurences from yelp group by bucket order by number_of_occurences desc'):
+    for data in c.execute("select bucket, count(bucket) as number_of_occurences from yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by bucket order by number_of_occurences desc"):
         yelp_Dict = {
             'category':data[0],
             'occurences_Category':data[1]}
         yelp_list.append(yelp_Dict)
     #print out the json to the end point
+<<<<<<< HEAD
     return jsonify.dumps(yelp_list)
+=======
+    return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
 
 
 if __name__ == '__main__':
