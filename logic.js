@@ -94,19 +94,14 @@ var myMap1 = L.map('map-1',{
     zoom: 4
 });
 
-var myMap2 = L.map('map-2',{
-    center: [37.0902, -95.7129],
-    zoom: 4
-});
 
 L.tileLayer(mapbox).addTo(myMap1);
 
-L.tileLayer(mapbox).addTo(myMap2);
 
 //Grabbing the user selection for state in dropdown
 function stateSelect(clickedId){
     console.log(clickedId);
-    
+
     
     switch(clickedId){
         case "Alaska":
@@ -239,10 +234,8 @@ function stateSelect(clickedId){
 function stateRetrival(stateAbv, stateLoc){
         console.log(stateAbv,stateLoc[0],stateLoc[1]);
         myMap1.flyTo([stateLoc[0],stateLoc[1]],7);
-        myMap2.flyTo([stateLoc[0],stateLoc[1]],7);
         document.getElementById("map-1-title").innerHTML = stateAbv;
-        document.getElementById("map-2-title").innerHTML = stateAbv;
-      
+        
 };
 
 
