@@ -1,7 +1,7 @@
 body{
     background-color: #FCFAFB;
     font-family: Arial, Helvetica, sans-serif;
-    margin-top: 1%;
+    
    
  
  
@@ -10,8 +10,10 @@ body{
 .logo-header{
 
     max-width: 20%;
-    max-height: 20%;
+    max-height: 200px;
     display: inline-block;
+    position: relative;
+    margin-bottom: 30px;
 
 }
 h1{
@@ -22,11 +24,15 @@ h1{
 
 h2{
     color: #d32323;
-    font-weight: 500;
+    font-weight: 700;
 }
-.btn-group{
-    margin-top: 1%;
+
+#table-header{
+    padding: 5px;
+    border-bottom: 2px solid rgb(175, 174, 174);
+
 }
+
 
 .box {
    padding: 2%;
@@ -46,11 +52,6 @@ ul{
     
 }
 
-.list-group li {
-    text-align: left;
-    font-size: 20px;
-    margin: 2% 0% 2% 0%;
-  }
 
 #map-1{
     height: 500px;
@@ -76,3 +77,4 @@ ul{
     font-size: 36px;
     text-align: center;
 }
+
