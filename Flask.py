@@ -2,7 +2,7 @@ import os
 import sqlite3
 import pandas as pd
 from flask import Flask, jsonify
-
+import requests as req
 import json
 
 
@@ -17,8 +17,66 @@ c = con.cursor()
 
 app = Flask(__name__)
 # Return all results of query
+def dataFrameJson():
+    #url end point
+    url = 'https://bubinga.co/wp-content/uploads/jsonstates.min_.js'
+    #create url enpoint to read in json
+    json_file = req.get(url).json()
+    #create emply list that will be used to create dictonary
+    yelp_list_sql=[]
+
+    #sql loop for statement 
+    for data in c.execute("SELECT State , count(name) as location_count, avg (sentiment) as average_sentiment FROM yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by State  LIMIT 1000"):
+            yelp_Dict_sql_loop = {
+                'STATE':data[0],
+                'location_Count':data[1],
+                'Average_Sentiment':data[2]}
+        
+        
+        
+            yelp_list_sql.append(yelp_Dict_sql_loop)
 
 
+
+    #make a data frame off of the json url
+    json_df = pd.read_json(url)
+
+
+    #take json file and make state append
+    json_states = []
+    for i in json_df['features']:
+        abrrev_Variable= (i['properties']['abbr'])
+        json_states.append(abrrev_Variable)
+
+    #add to 
+    json_df['State'] = json_states
+
+    #take sql dictonary find the states
+    empty_state_dict = []
+    for i in yelp_list_sql:
+        stateDict_Variable = i['STATE']
+        empty_state_dict.append(stateDict_Variable)
+
+    yelp_sql_dict = pd.DataFrame.from_dict(yelp_list_sql)
+    yelp_sql_dict['State']= empty_state_dict
+
+    #merge the two data frames on added state column
+    combined_state = pd.merge(yelp_sql_dict,json_df,how='inner', on='State' )
+    #drop state column
+    combined_state=combined_state.drop(['STATE'],axis=1)
+    return combined_state
+
+
+
+## this one is in the works as of now but not currently working
+@app.route("/geoJsonBoundary")
+def geoJsonBound():
+    test = dataFrameJson()
+    print("**************")
+    print(test['features'])
+    return jsonify({test['features']['propertie']})
+
+    
 #endpoint is to create markets for each location in the list..
 #currentl it's limited to 500 but that can be changed by chaning the sql statement on line 31 limit clause
 @app.route("/geoJson")
@@ -59,11 +117,14 @@ def cityjson():
    
     yelp_list=[]
     
-    for data in c.execute("SELECT State , count(name) as location_count, avg (sentiment) as average_sentiment FROM yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by State  LIMIT 100 OFFSET 5"):
+    for data in c.execute("SELECT State , count(name) as location_count, avg (sentiment) as average_sentiment FROM yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by State  LIMIT 2000"):
         yelp_Dict = {
             'STATE':data[0],
             'location_Count':data[1],
             'Average_Sentiment':data[2]}
+    
+       
+       
         yelp_list.append(yelp_Dict)
     
 <<<<<<< HEAD
