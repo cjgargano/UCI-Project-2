@@ -11,12 +11,7 @@ $("#statebtn,#categorybtn").click(function(){
     });
 });
 
-$("#categorybtn").click(function(){
-    $(".logo-header").effect("shake");
-});
-
-
-
+//establishing the categories for dropdown
 var states = ["Alaska",
     "Alabama",
     "Arkansas",
@@ -42,6 +37,7 @@ var states = ["Alaska",
     "Washington",
     "Wisconsin"];
 
+//establishing the categories for dropdown
 var categories = ["Automotive",
     "Bars & Restaurants",
     "Business & Tech Services",
@@ -98,15 +94,26 @@ var myMap1 = L.map('map-1',{
 L.tileLayer(mapbox).addTo(myMap1);
 
 
-//Grabbing the user selection for state in dropdown
+//Grabbing the user selection for state from dropdown
 function stateSelect(clickedId){
+    //printing selection to console for debugging
     console.log(clickedId);
+    //setting the map title to the state selection
+    document.getElementById("map-1-title").innerHTML = clickedId;
 
-    
+    //changing the table titles to reflect the selected state
+    var x = document.getElementsByClassName("stateInsert");
+    var i;
+    for (i=0; i < x.length; i++){
+        x[i].innerHTML = " In " + clickedId;
+    }
+
+    //setting the State Abbreviations & Lat/Lng for map layer and data retrieval
     switch(clickedId){
         case "Alaska":
             var stateAbv = "AK";
             var stateLoc = [61.370716,-152.404419];
+            //passing state Abbreviation & Loc to function to set Map View
             stateRetrival(stateAbv, stateLoc);
             break
         case "Alabama":
@@ -234,12 +241,25 @@ function stateSelect(clickedId){
 function stateRetrival(stateAbv, stateLoc){
         console.log(stateAbv,stateLoc[0],stateLoc[1]);
         myMap1.flyTo([stateLoc[0],stateLoc[1]],7);
-        document.getElementById("map-1-title").innerHTML = stateAbv;
         
+        
+        //Call function to alter tables
+        cityTablePop(stateAbv);
+
+        
+};
+
+//Function to populate the tables with data
+function cityTablePop(stateAbv){
+        //write query to populate tables
+        //Each table has an ID assigned
+
 };
 
 
 //Grabbing the user selection for category
 function categorySelect(clickedId){
     console.log(clickedId);
+    document.getElementById("map-1-title").innerHTML = clickedId;
+    myMap1.flyTo([37.0902, -95.7129],4.5);
 };
