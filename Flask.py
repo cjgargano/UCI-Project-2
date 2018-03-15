@@ -112,7 +112,11 @@ def geoJson():
             }
         yelp_list.append(yelp_Dict)
     
+<<<<<<< HEAD
+    return jsonify.dumps(yelp_list)
+=======
     return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
     
     
 @app.route("/cityjson")
@@ -132,7 +136,11 @@ def cityjson():
        
         yelp_list.append(yelp_Dict)
     
+<<<<<<< HEAD
+    return jsonify.dumps(yelp_list)
+=======
     return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
     
  #endpoint is for a showing which cities have the most number of reviews   
 @app.route("/mostReviewedJson")    
@@ -150,7 +158,11 @@ def mostReviewedJson():
             'longitude':data[3]}
         yelp_list.append(yelp_Dict)
     
+<<<<<<< HEAD
+    return jsonify.dumps(yelp_list)
+=======
     return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
  #this is the city that has the best rating with more than 2000 places reviewed    
 @app.route("/bestratedCityJson")    
 def bestratedcityjson():
@@ -167,7 +179,11 @@ def bestratedcityjson():
             'longitude':data[3]}
         yelp_list.append(yelp_Dict)
     #print out the json to the end point
+<<<<<<< HEAD
+    return jsonify.dumps(yelp_list)
+=======
     return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
 
 
 #enpoint to show the number each bucket appears
@@ -184,7 +200,11 @@ def bucketCountJson():
             'occurences_Category':data[1]}
         yelp_list.append(yelp_Dict)
     #print out the json to the end point
+<<<<<<< HEAD
+    return jsonify.dumps(yelp_list)
+=======
     return jsonify(yelp_list)
+>>>>>>> 2fec59dc8eea8c4999a5f0debc60244942e36875
 
 
 if __name__ == '__main__':
