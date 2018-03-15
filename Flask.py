@@ -1,7 +1,7 @@
 import os
 import sqlite3
 import pandas as pd
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template, json, url_for
 import requests as req
 import json
 
@@ -68,13 +68,22 @@ def dataFrameJson():
 
 
 
+#this route isn't functional 
+@app.route('/test')
+def showjson():
+    
+    json_url = 'geoJsonCoord.json'
+    data_json = json.load(open(json_url))
+    print('*************')
+    return jsonify(data_json)
+    
 ## this one is in the works as of now but not currently working
 @app.route("/geoJsonBoundary")
 def geoJsonBound():
     test = dataFrameJson()
     print("**************")
     print(test['features'])
-    return jsonify({test['features']['propertie']})
+    return jsonify({test['features']['properties']})
 
     
 #endpoint is to create markets for each location in the list..
