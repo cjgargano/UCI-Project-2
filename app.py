@@ -47,11 +47,11 @@ def geoJsonBound():
     #make a data frame off of the json url
     json_df = pd.read_json(url)
 
-    print('!!!!!!!!!!!!!!!!!!')
+    
     #take json file and make state append
     json_states = []
     json_geometry = []
-    print('!!!!!')
+   
     for i in json_df['features']:
         abrrev_Variable= (i['properties']['abbr'])
         geometry_variable= (i['geometry'])
@@ -97,7 +97,7 @@ def geoJsonBound():
             }
         polygon_list.append(poly_Dict)
     
-    return jsonify(polygon_list)
+    return jsonify(polygon_list[0])
 
     
 #endpoint is to create markets for each location in the list..
@@ -108,7 +108,7 @@ def geoJson():
     #data = cur.execute('SELECT name, stars FROM yelp')
    
     yelp_list=[]
-    
+    #create a list that will be added to 
     for data in c.execute("SELECT NAME, City, State, Latitude, Longitude, Stars, Review_Count, Bucket, Sentiment FROM yelp WHERE  state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY')  LIMIT 5000 OFFSET 1"):
         yelp_Dict = {
             'properties': {'Name':data[0],
@@ -136,6 +136,7 @@ def cityjson():
    
     yelp_list=[]
     
+    #
     for data in c.execute("SELECT State , count(name) as location_count, avg (sentiment) as average_sentiment FROM yelp WHERE state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') group by State  LIMIT 1000000"):
         yelp_Dict = {
             'STATE':data[0],
