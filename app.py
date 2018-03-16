@@ -19,8 +19,7 @@ app = Flask(__name__)
 # Return all results of query
 
 @app.route("/")
-def index():
-
+def file_index():
     return render_template('index.html')   
 
 ## this one is in the works as of now but not currently working
@@ -203,5 +202,5 @@ def bucketCountJson():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug= True)
 
