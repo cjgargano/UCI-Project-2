@@ -54,11 +54,16 @@ def geoJsonBound():
     print('!!!!!')
     for i in json_df['features']:
         abrrev_Variable= (i['properties']['abbr'])
+        geometry_variable= (i['geometry'])
         json_states.append(abrrev_Variable)
- 
-
-    #add to 
+        json_geometry.append(geometry_variable)
     
+    #reset the index and drop the old one
+    json_df.reset_index(drop=True)
+    
+    #add to json df new columns
+    json_df['State'] = json_states
+    json_df['Geometry'] = json_geometry
     
     #take sql dictonary find the states
     empty_state_dict = []
@@ -66,32 +71,26 @@ def geoJsonBound():
         stateDict_Variable = i['STATE']
         empty_state_dict.append(stateDict_Variable)
 
+    # create a data frame off of the dictonary on line 71
     yelp_sql_dict = pd.DataFrame.from_dict(yelp_list_sql)
+    
     yelp_sql_dict['State']= empty_state_dict
     
-    print('*********')
-    json_df.reset_index(drop=True)
-    print('#$#$#$$##')
-    json_df['State'] = json_states
-    print('*********')
-   
-    print('#$#$#$$##')
-    json_df['Geometry'] = json_geometry
-
-    print('sssssssssssss')
-   
-  
+    
     #merge the two data frames on added state column
     combined_state = pd.merge(yelp_sql_dict,json_df,how='inner', on='State' )
+    
     #drop state column
     combined_state=combined_state.drop(['STATE'],axis=1)
     combined_state = combined_state.drop(['features'], axis=1)
-    print('!!!!!!!!!!!!!!!!!!')
+    
+    #create an empty list
     polygon_list =[]
+    
     #itterate through each row and make a dictonary out of the each column/row
     for index, row in combined_state.iterrows():
         poly_Dict = {
-            'STATE':row['STATE'],
+            'STATE':row['State'],
             'Location_Count':row['location_Count'],
             'Average_Sentiment':row['Average_Sentiment'],
             'Geometry':row['Geometry']
