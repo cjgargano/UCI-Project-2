@@ -126,8 +126,31 @@ def geoJson():
         yelp_list.append(yelp_Dict)
     
     return jsonify(yelp_list)
+
+@app.route("/tableJson")
+def tableJson():
+
+    #data = cur.execute('SELECT name, stars FROM yelp')
+   
+    yelp_list=[]
+    #create a list that will be added to 
+    for data in c.execute("SELECT NAME, Bucket, City, State, Stars, Review_Count, ROUND(Sentiment*100,2) AS Sentiment_Score FROM yelp WHERE  state in ('AL', 'AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY') AND Review_count > 10 ORDER BY Sentiment_Score DESC LIMIT 5000 OFFSET 1"):
+        yelp_Dict = {
+            'A_name': data[0],
+            'B_bucketCat': data[1],
+            'C_city': data[2],
+            'D_state': data[3],
+            'E_rating': data[4],
+            'F_reviewCount': data[5],
+            'G_sentiment': data[6]
+            }
+        
+        yelp_list.append(yelp_Dict)
     
-    
+    return jsonify(yelp_list)
+
+
+
 @app.route("/cityjson")
 def cityjson():
 

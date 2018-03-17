@@ -57,15 +57,13 @@
         <div class="container-fluid text-center">
             <div class="row head">
                 <div class="header" style="margin:auto">
-
                 <img class="logo-header" src="{{ url_for('static', filename='images/Yelp_trademark_RGB.png') }}" alt="Yelp Logo">
-
                 </div>
                 <div class="header"style="margin:auto">
-                <h1>Top Cities & Categories Dash</h1>
+                    <h1><font color="red">Top Cities & Categories Dash</font></h1>
                 </div>
-
             </div>
+
             <div class="row">
                 <div class="btn-group">
                     <div class="btn-group">
@@ -78,17 +76,60 @@
                         <ul class="dropdown-menu" id="categoryList">
                         </ul>
                     </div>
-    
+                </div>
+            </div>
+
+            <!-- Map -->
+            <div class="row">
+                <h3 id="map-1-title"></h3>
+                <div id="map-1"> </div>
+            </div>
+            <hr>
+
+            <!-- Plotly charts -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="plotly-bar"></div>
+                </div>
+                <div class="col-md-6">
+                    <div id="plotly-bubble"></div>
+                </div>
+                <div class="row"></div>
+                <hr>
+            </div>
+            <hr>
+
+            <!-- Data Table -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-header">
+                        <h3><font color="red">Detailed Data Table</font></h3>
+                        <p><i>Sorted by average review sentiment</i></p>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <thead align="left">
+                            <tr>
+                                <th>Business Name</th>
+                                <th>Category</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Avg. Star Rating</th>
+                                <th># of Reviews</th>
+                                <th>Avg. Review Sentiment</th>
+                            </tr>
+                        </thead>
+                        <tbody align="left">                     
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <h2 id="map-1-title"></h2>
-                    <div id="map-1"> </div>
-                </div>
+              <div class="col-md-6 col-md-offset-3 text-center">
+                <button id="load-btn" class="btn btn-primary">Load More Data</button>
+              </div>
+            </div>    
 
-            </div>
-
+<!--
             <div class="row">
                 <div class="col-md-6">
                     <div id="table-header">
@@ -171,18 +212,18 @@
                         </tbody>
                     </table>
                 </div>
-
             </div>
+-->
         </div>
         
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.js') }}"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
 
     <!-- Our JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='js/logic.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/map.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/plotly_charts.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/table.js') }}"></script>
    
 </body>
 

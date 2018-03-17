@@ -85,7 +85,8 @@ for (var i = 0; i < categories.length; i++){
 // Create Map ///////////////////////////////////////////////
 
 Plotly.d3.json("/geoJson", function(data) {
-    myMap1 = buildMap(data);    
+    myMap1 = buildMap(data);
+    //myMap1.addTo(yelpSentiment); // to add sentiment analysis
 });
 
 ////////////////////////////////////////////////////////////
@@ -125,8 +126,10 @@ function getRadius(Review_Count) {
         return 10;
     } else if (Review_Count <= 100) {
         return 15;
-    } else if (Review_Count > 100) {
+    } else if (Review_Count <= 500) {
         return 20;
+    } else if (Review_Count > 500) {
+        return 25;
     } else {
         return 0; // in case there is an error
     }
@@ -137,14 +140,8 @@ function getRadius(Review_Count) {
 // Function to build map //////////////////////////////////
 
 function buildMap(data) {
-    console.log(data[1]);
-    console.log(data[1].geometry.coord);
-    console.log(data[1].properties.Name);
-    console.log(data[1].properties.Stars);
-    console.log(data[1].properties.address);
-
+    
     // Create Markers for each business ////////////////////
-
     var yelpMarkers = [];
 
     // Loop through locations and create yelp markers
@@ -162,10 +159,6 @@ function buildMap(data) {
                 <p> Rating: " + data[i].properties.Stars + "</p>\
                     <p># Reviews: " + data[i].properties.Review_Count + "</p>"))
     }
-
-    console.log("Yelp Markers: ")
-    console.log(yelpMarkers); //looks like it works...
-    console.log("-------------------------")
 
     // Map Layers ///////////////////////////////////////////
 
@@ -186,9 +179,6 @@ function buildMap(data) {
 
     // Create layer group for yelp data
     var yelp = L.layerGroup(yelpMarkers);
-    console.log("Yelp Layer: ");
-    console.log(yelp);
-    console.log("-------------------------")
 
     // Create layer group for sentiment coropleth
     // choroYelp();         
@@ -204,11 +194,7 @@ function buildMap(data) {
     var overlayMaps = {
         "Yelp Data": yelp/*,
         "Sentiment Data": sentiment*/
-    };
-    console.log("overlayMaps: ");
-    console.log(overlayMaps);
-    console.log("-------------------------")            
-
+    };         
 
     /////////////////////////////////////////////////////////
 
@@ -224,10 +210,10 @@ function buildMap(data) {
         collapsed: false }).addTo(myMap1);
 
     // Add legend for the circle colors
-    var legend = L.control({position: 'bottomleft'});
-    legend.onAdd = function (myMap1) {
+    var circleLegend = L.control({position: 'bottomleft'});
+    circleLegend.onAdd = function (myMap1) {
 
-        var div = L.DomUtil.create('div', 'info legend'),
+        var div = L.DomUtil.create('div', 'info-legend'),
             grades = [1, 2, 3, 4, 5],
             labels = [];
 
@@ -236,12 +222,13 @@ function buildMap(data) {
 
         for (var i = 0; i < grades.length; i++) {
             div.innerHTML +=
-                '<i style="background:' + getColor(grades[i]-0.1) + '"></i> ' + "< " + grades[i] + '<br>';
+                //'<i class="circle" style="background":' + getColor(grades[i]) + '"></i> ' + "< " + grades[i] + '<br>';
+                '<i style="height: 5px; width: 5px; z-index: 1; background:' + getColor(grades[i]-0.1) + '"></i> ' + "< " + grades[i] + '<br>';
         }   
         return div;
     };
 
-    legend.addTo(myMap1);
+    circleLegend.addTo(myMap1);
 
     // Toggle mouse wheel zoom on click
     myMap1.scrollWheelZoom.disable();
